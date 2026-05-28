@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class SubFlowText
+    public class SubFlowText
     {
         public string heading;
         public string[] text;

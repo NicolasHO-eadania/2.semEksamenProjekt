@@ -4,14 +4,15 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class FlowOverview
-    {
-        public List<Flow> AllFlows;
+    //public class FlowOverview
+    //{
+    //    public List<Flow> AllFlows;
 
 
 
-        public List<Flow> FilterByTag(string tag)
-        {
-        }
-    }
+    //    public List<Flow> FilterByTag(string tag)
+    //    {
+
+    //    }
+    //}
 }

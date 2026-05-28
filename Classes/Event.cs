@@ -1,11 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class Event
+    public class Event
     {
         public string title;
         public string[] description;
@@ -18,18 +16,17 @@ namespace _2.semEksamenProjekt
         public List<Team> teams;
         public List<string> tags;
 
-
-
-        public void AddEvent()
+        public void AddEvent(EventOverview overview)
         {
-
+            overview.AllEvents.Add(this);
         }
 
-        public void DeleteEvent()
+        public void DeleteEvent(EventOverview overview)
         {
-
+            overview.AllEvents.Remove(this);
         }
-        public void EditEvent()
+
+        public void EditEvent(EventOverview overview, Event oldEvent)
         {
 
         }

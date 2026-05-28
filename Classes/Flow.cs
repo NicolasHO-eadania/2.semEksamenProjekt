@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class Flow
+    public class Flow
     {
         public string Title;
         public string image;

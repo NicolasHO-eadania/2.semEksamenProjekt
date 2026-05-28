@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class User
+    public class User
     {
         public string username;
         public string password;

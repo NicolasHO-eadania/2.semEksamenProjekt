@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class SubFlowFile
+    public class SubFlowFile
     {
         public string heading;
         public string file;

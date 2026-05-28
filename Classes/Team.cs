@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2.semEksamenProjekt
 {
-    class Team
+    public class Team
     {
         public string teamName;
         public int year;
