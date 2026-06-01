@@ -16,6 +16,7 @@ namespace _2.semEksamenProjekt
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int LoggetIndBrugerId { get; set; }
         public MainWindow()
         {
             InitializeComponent();

@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:_2.semEksamenProjekt"
+        xmlns:views="clr-namespace:_2.semEksamenProjekt.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Skole System" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-
+        <views:Login_View     x:Name="LoginSide"/>
+        <views:Dashboard_View x:Name="DashboardSide" Visibility="Collapsed"/>
+        <views:Skema_View     x:Name="SkemaSide"     Visibility="Collapsed"/>
     </Grid>
 </Window>

@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="_2.semEksamenProjekt.Views.Skema_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_2.semEksamenProjekt.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <TabControl>
+
+        <TabItem Header="Skema">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,5">
+                    <Button x:Name="BtnForrige" Content="◀ Forrige" Width="80" Click="BtnForrige_Click"/>
+                    <TextBlock x:Name="TxtUge" FontSize="16" FontWeight="Bold"
+                               VerticalAlignment="Center" Margin="16,0"/>
+                    <Button x:Name="BtnNæste" Content="Næste ▶" Width="80" Click="BtnNæste_Click"/>
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text=""/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TxtMan" Text="Mandag" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" x:Name="TxtTir" Text="Tirsdag" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" x:Name="TxtOns" Text="Onsdag" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="4" x:Name="TxtTor" Text="Torsdag" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="5" x:Name="TxtFre" Text="Fredag" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="08:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="09:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="10:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="11:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="12:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="13:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="14:00" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="15:00" VerticalAlignment="Top"/>
+
+                        <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                        <Border Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="5" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+
+                        <Canvas x:Name="LektionsCanvas"
+                                Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="8"/>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Mine Flows">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Mine flows" FontSize="18"
+                           FontWeight="Bold" Margin="0,0,0,10"/>
+                <ListBox Grid.Row="1" x:Name="FlowListe"/>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
+</UserControl>

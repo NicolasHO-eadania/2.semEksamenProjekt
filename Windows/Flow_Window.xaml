@@ -1,0 +1,18 @@
+﻿<Window x:Class="_2.semEksamenProjekt.Windows.Flow_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2.semEksamenProjekt.Windows"
+        mc:Ignorable="d"
+        Title="Flow" Height="450" Width="800">
+    <Grid>
+        <TextBlock x:Name="TxtTitel" HorizontalAlignment="Left" Margin="133,50,0,0" 
+                   FontSize="16" FontWeight="Bold" VerticalAlignment="Top"/>
+        <Label Content="Navn" HorizontalAlignment="Left" Margin="133,91,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtNavn" HorizontalAlignment="Left" Margin="133,122,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Beskrivelse" HorizontalAlignment="Left" Margin="133,161,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtBeskrivelse" HorizontalAlignment="Left" Margin="133,192,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Gem" Content="Gem" HorizontalAlignment="Left" Margin="133,234,0,0" VerticalAlignment="Top" Width="120" Click="BtnGem_Click"/>
+    </Grid>
+</Window>
