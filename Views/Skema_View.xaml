@@ -84,7 +84,9 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Mine flows" FontSize="18"
                            FontWeight="Bold" Margin="0,0,0,10"/>
-                <ListBox Grid.Row="1" x:Name="FlowListe"/>
+                <ListBox Grid.Row="1" x:Name="FlowListe" Margin="124,12,163,46"/>
+                <Button Content="A -> Z" HorizontalAlignment="Left" Margin="641,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Click="AZ_Click"/>
+                <Button Content="Z -> A" HorizontalAlignment="Left" Margin="641,53,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Click="ZA_Click"/>
             </Grid>
         </TabItem>
 

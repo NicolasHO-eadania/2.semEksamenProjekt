@@ -25,15 +25,14 @@ namespace _2.semEksamenProjekt.Views
             OpdaterUgeLabel();
         }
 
-        private void BtnForrige_Click(object sender, RoutedEventArgs e)
-        {
-            _mandag = _mandag.AddDays(-7);
-            OpdaterUgeLabel();
-        }
-
         private void BtnNæste_Click(object sender, RoutedEventArgs e)
         {
             _mandag = _mandag.AddDays(7);
+            OpdaterUgeLabel();
+        }
+        private void BtnForrige_Click(object sender, RoutedEventArgs e)
+        {
+            _mandag = _mandag.AddDays(-7);
             OpdaterUgeLabel();
         }
 
@@ -156,6 +155,26 @@ namespace _2.semEksamenProjekt.Views
         {
             int dag = (int)d.DayOfWeek;
             return d.AddDays(dag == 0 ? -6 : 1 - dag).Date;
+        }
+
+        public void AZ_Click(object sender, RoutedEventArgs e)
+        {
+            var sorteret = FlowListe.Items.Cast<string>()
+                .OrderBy(x => x)
+                .ToList();
+            FlowListe.Items.Clear();
+            foreach (var item in sorteret)
+                FlowListe.Items.Add(item);
+        }
+
+        public void ZA_Click(object sender, RoutedEventArgs e)
+        {
+            var sorteret = FlowListe.Items.Cast<string>()
+                .OrderByDescending(x => x)
+                .ToList();
+            FlowListe.Items.Clear();
+            foreach (var item in sorteret)
+                FlowListe.Items.Add(item);
         }
     }
 }
