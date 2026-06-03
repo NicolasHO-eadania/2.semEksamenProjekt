@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,12 +11,18 @@ namespace _2.semEksamenProjekt
     public partial class EventOverviewWindow : Window
     {
         double timeHeight = 60; // pixels pr time vertikalt
-        double dayWidth = 150; // pixels pr dag horisontalt
-        int days = 7; // dage på skemaet
-        int startHour = 8; // hvornår skemaet starter
-        int endHour = 16; // hvornår skemaet slutter
+        double dayWidth = 150;  // pixels pr dag horisontalt
+        int days = 7;           // dage på skemaet
+        int startHour = 8;      // hvornår skemaet starter
+        int endHour = 16;       // hvornår skemaet slutter
 
         EventOverview overview = new EventOverview();
+
+        // repository håndterer alle database funktionerne
+        EventRepository repository = new EventRepository();
+
+        // holder styr på hvilken uge der vises
+        DateTime currentMonday;
 
         public EventOverviewWindow()
         {
@@ -30,56 +37,73 @@ namespace _2.semEksamenProjekt
             EventsCanvas.Width  = days * dayWidth;
             EventsCanvas.Height = totalHours * timeHeight;
 
-            AddSampleData();
+            // start med den nuværende uge
+            currentMonday = GetMonday(DateTime.Today);
+
+            LoadFromDatabase();
 
             DrawTimeLabels();
 
+            UpdateWeekLabel();
+
+            RedrawSchedule();
+        }
+
+        // går en uge tilbage
+        private void PreviousWeek_Click(object sender, RoutedEventArgs e)
+        {
+            currentMonday = currentMonday.AddDays(-7);
+            RedrawSchedule();
+        }
+
+        // går en uge frem
+        private void NextWeek_Click(object sender, RoutedEventArgs e)
+        {
+            currentMonday = currentMonday.AddDays(7);
+            RedrawSchedule();
+        }
+
+        // går tilbage til den nuværende uge
+        private void CurrentWeek_Click(object sender, RoutedEventArgs e)
+        {
+            currentMonday = GetMonday(DateTime.Today);
+            RedrawSchedule();
+        }
+
+        // opdaterer ugelabelen (fx "Uge 21: 19. maj – 25. maj 2025")
+        private void UpdateWeekLabel()
+        {
+            int weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(
+                currentMonday,
+                CalendarWeekRule.FirstFourDayWeek,
+                DayOfWeek.Monday);
+
+            DateTime sunday = currentMonday.AddDays(6);
+            WeekLabel.Text = $"Uge {weekNumber}: {currentMonday:dd. MMM} – {sunday:dd. MMM yyyy}";
+        }
+
+        // rydder canvas og tegner events for den nuværende uge
+        private void RedrawSchedule()
+        {
+            EventsCanvas.Children.Clear();
+
             DrawGrid();
 
+            UpdateWeekLabel();
+
+            // tegn kun events der ligger i den nuværende uge
             foreach (Event ev in overview.AllEvents)
             {
-                DrawEvent(ev);
+                if (ev.start >= currentMonday && ev.start < currentMonday.AddDays(7))
+                    DrawEvent(ev);
             }
         }
 
-
-        // eksempler
-        public void AddSampleData()
+        
+        // henter alle events fra databasen
+        public void LoadFromDatabase()
         {
-            DateTime monday = GetMonday(DateTime.Today);
-
-            User teacherKenneth = new User { username = "Kenneth", role = "Underviser" };
-            User teacherDenni   = new User { username = "Denni",  role = "Underviser" };
-
-            Team classA = new Team
-            {
-                teamName = "sibdat25",
-                year = 2025,
-                education = "Datamatiker",
-                city = "Silkeborg"
-            };
-
-            new Event
-            {
-                title = "Teknologi",
-                start = monday.AddHours(8),
-                end = monday.AddHours(10),
-                rooms = new List<string> { "Lokale A101" },
-                teachers = new List<User> { teacherKenneth },
-                teams = new List<Team> { classA },
-                tags = new List<string> { "Undervisning" }
-            }.AddEvent(overview);
-
-            new Event
-            {
-                title = "UI og UX",
-                start = monday.AddDays(1).AddHours(9),
-                end = monday.AddDays(1).AddHours(11),
-                rooms = new List<string> { "A202" },
-                teachers = new List<User> { teacherDenni },
-                teams = new List<Team> { classA },
-                tags = new List<string> { "Undervisning" }
-            }.AddEvent(overview);
+            overview.AllEvents = repository.GetAllEvents();
         }
 
         public void DrawTimeLabels()
@@ -88,13 +112,13 @@ namespace _2.semEksamenProjekt
             {
                 TextBlock label = new TextBlock
                 {
-                    Text = $"{hour:D2}:00",
-                    Width = 55,
-                    Height = timeHeight,
-                    TextAlignment = TextAlignment.Right,
+                    Text              = $"{hour:D2}:00",
+                    Width             = 55,
+                    Height            = timeHeight,
+                    TextAlignment     = TextAlignment.Right,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Padding = new Thickness(0, 20, 5, 0),
-                    FontSize = 11
+                    Padding           = new Thickness(0, 20, 5, 0),
+                    FontSize          = 11
                 };
                 TimeColumn.Children.Add(label);
             }
@@ -110,11 +134,11 @@ namespace _2.semEksamenProjekt
             {
                 Line line = new Line
                 {
-                    X1 = 0,
-                    Y1 = i * timeHeight,
-                    X2 = days * dayWidth,
-                    Y2 = i * timeHeight,
-                    Stroke = Brushes.LightGray,
+                    X1              = 0,
+                    Y1              = i * timeHeight,
+                    X2              = days * dayWidth,
+                    Y2              = i * timeHeight,
+                    Stroke          = Brushes.LightGray,
                     StrokeThickness = 1
                 };
                 EventsCanvas.Children.Add(line);
@@ -125,11 +149,11 @@ namespace _2.semEksamenProjekt
             {
                 Line line = new Line
                 {
-                    X1 = i * dayWidth,
-                    Y1 = 0,
-                    X2 = i * dayWidth,
-                    Y2 = totalHours * timeHeight,
-                    Stroke = Brushes.Gray,
+                    X1              = i * dayWidth,
+                    Y1              = 0,
+                    X2              = i * dayWidth,
+                    Y2              = totalHours * timeHeight,
+                    Stroke          = Brushes.Gray,
                     StrokeThickness = 1
                 };
                 EventsCanvas.Children.Add(line);
@@ -138,11 +162,12 @@ namespace _2.semEksamenProjekt
 
         public void DrawEvent(Event ev)
         {
-            // finder den rigtige dag i skemaet
-            int dayIndex = GetDayIndex(ev.start);
+            // beregner kolonneindeks ud fra currentMonday
+            // så events altid lander i den rigtige kolonne uanset hvilken uge der vises
+            int dayIndex = (ev.start.Date - currentMonday).Days;
 
             // crash fix
-            if (dayIndex < 0)
+            if (dayIndex < 0 || dayIndex >= days)
                 return;
 
             // y position baseret på starttidspunkt
@@ -155,9 +180,9 @@ namespace _2.semEksamenProjekt
             // opretter event blokken
             Border block = new Border
             {
-                Width = dayWidth - 6,
-                Height = blockHeight,
-                BorderBrush = Brushes.Gray,
+                Width           = dayWidth - 6,
+                Height          = blockHeight,
+                BorderBrush     = Brushes.Gray,
                 BorderThickness = new Thickness(1)
             };
 
@@ -166,16 +191,16 @@ namespace _2.semEksamenProjekt
             // titel
             content.Children.Add(new TextBlock
             {
-                Text = ev.title,
-                FontWeight = FontWeights.Bold,
+                Text         = ev.title,
+                FontWeight   = FontWeights.Bold,
                 TextWrapping = TextWrapping.Wrap,
-                FontSize = 12
+                FontSize     = 12
             });
 
             // tidspunkt
             content.Children.Add(new TextBlock
             {
-                Text = $"{ev.start:HH:mm} – {ev.end:HH:mm}",
+                Text     = $"{ev.start:HH:mm} – {ev.end:HH:mm}",
                 FontSize = 11
             });
 
@@ -184,7 +209,7 @@ namespace _2.semEksamenProjekt
             {
                 content.Children.Add(new TextBlock
                 {
-                    Text = ev.rooms[0],
+                    Text     = ev.rooms[0],
                     FontSize = 10
                 });
             }
@@ -194,7 +219,7 @@ namespace _2.semEksamenProjekt
             {
                 content.Children.Add(new TextBlock
                 {
-                    Text = ev.teachers[0].username,
+                    Text     = ev.teachers[0].username,
                     FontSize = 10
                 });
             }
@@ -202,7 +227,7 @@ namespace _2.semEksamenProjekt
             block.Child = content;
 
             Canvas.SetLeft(block, dayIndex * dayWidth + 3);
-            Canvas.SetTop(block, topPos + 2);
+            Canvas.SetTop(block,  topPos + 2);
 
             EventsCanvas.Children.Add(block);
         }
