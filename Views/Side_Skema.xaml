@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="_2.semEksamenProjekt.Views.Side_Skema"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_2.semEksamenProjekt.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <TabControl x:Name="MainTabs">
+
+            <!-- SKEMA TAB -->
+            <TabItem Header="Skema">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                    <Grid x:Name="SkemaGrid"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- FLOWS TAB -->
+            <TabItem Header="Flows">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Venstre side - TreeView -->
+                    <DockPanel Grid.Column="0" Margin="5">
+                        <TextBlock DockPanel.Dock="Top" Text="Mine Flows" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TreeView x:Name="FlowTree" SelectedItemChanged="FlowTree_SelectedItemChanged"/>
+                    </DockPanel>
+
+                    <!-- Højre side - Indhold -->
+                    <Grid Grid.Column="1" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="IndholdTitel" Grid.Row="0" FontSize="20" 
+                       FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBox x:Name="IndholdTekst" Grid.Row="1" TextWrapping="Wrap"
+                     AcceptsReturn="True" IsReadOnly="True" 
+                     VerticalScrollBarVisibility="Auto" Margin="0,0,0,10"/>
+
+                        <!-- Opret underflow (kun lærer) -->
+                        <StackPanel x:Name="OpretUnderflowPanel" Grid.Row="2" 
+                        Visibility="Collapsed" Orientation="Horizontal">
+                            <TextBox x:Name="UnderflowTitelBox" Width="200" Margin="0,0,5,0"/>
+                            <Button Content="+ Nyt underflow" Click="OpretUnderflow_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- LEKTIONER TAB (kun lærer - skjules for elever) -->
+            <TabItem Header="Lektioner" x:Name="LektionerTab" Visibility="Collapsed">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Opret Lektion" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Titel:"/>
+                    <TextBox x:Name="LektionTitelBox" Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Flow:"/>
+                    <ComboBox x:Name="LektionFlowCombo" Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Dag:"/>
+                    <ComboBox x:Name="LektionDagCombo" Margin="0,0,0,5">
+                        <ComboBoxItem>Mandag</ComboBoxItem>
+                        <ComboBoxItem>Tirsdag</ComboBoxItem>
+                        <ComboBoxItem>Onsdag</ComboBoxItem>
+                        <ComboBoxItem>Torsdag</ComboBoxItem>
+                        <ComboBoxItem>Fredag</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Start tid:"/>
+                    <TextBox x:Name="StartTidBox" Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Slut tid:"/>
+                    <TextBox x:Name="SlutTidBox" Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Indhold:"/>
+                    <TextBox x:Name="LektionIndholdBox" Height="100" 
+                             TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,10"/>
+
+                    <Button Content="Opret Lektion" Click="OpretLektion_Click" Width="150" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</UserControl>

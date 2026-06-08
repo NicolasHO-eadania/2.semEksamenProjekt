@@ -13,8 +13,7 @@ namespace _2.semEksamenProjekt
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Database.Initialiser();
+            Database.Initialize();
         }
     }
-
 }

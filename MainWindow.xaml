@@ -8,8 +8,8 @@
         Title="Skole System" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <views:Login_View     x:Name="LoginSide"/>
-        <views:Dashboard_View x:Name="DashboardSide" Visibility="Collapsed"/>
-        <views:Skema_View     x:Name="SkemaSide"     Visibility="Collapsed"/>
+        <views:Side_Login x:Name="Side_Login"/>
+        <views:Side_Dashboard x:Name="Side_Dashboard" Visibility="Collapsed"/>
+        <views:Side_Skema x:Name="Side_Skema" Visibility="Collapsed"/>
     </Grid>
 </Window>

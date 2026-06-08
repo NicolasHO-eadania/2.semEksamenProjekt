@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using _2.semEksamenProjekt.Services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,8 @@ namespace _2.semEksamenProjekt
         public int LoggetIndBrugerId { get; set; }
         public MainWindow()
         {
+            Database.Initialize();
+            Database.SeedDefaultUser();
             InitializeComponent();
         }
     }
