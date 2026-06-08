@@ -10,9 +10,9 @@ namespace _2.semEksamenProjekt
 
 
 
-        public List<Event> FilterByTag(string tag)
-        {
-        }
+        //public List<Event> FilterByTag(string tag)
+        //{
+        //}
 
     }
 }
