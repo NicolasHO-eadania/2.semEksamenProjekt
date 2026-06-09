@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Windows;
 
 namespace _2.semEksamenProjekt.Services
 {
@@ -208,16 +209,32 @@ namespace _2.semEksamenProjekt.Services
             return flows;
         }
 
-        public static void CreateFlow(string navn, string beskrivelse)
+        public static void CreateFlow(string navn, string beskrivelse, string username)
         {
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
-            var command = connection.CreateCommand();
-            command.CommandText = "INSERT OR IGNORE INTO Flows (Navn, Beskrivelse) VALUES (@navn, @beskrivelse)";
-            command.Parameters.AddWithValue("@navn", navn);
-            command.Parameters.AddWithValue("@beskrivelse", beskrivelse);
-            command.ExecuteNonQuery();
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "INSERT OR IGNORE INTO Flows (Navn, Beskrivelse) VALUES (@navn, @beskrivelse)";
+            cmd.Parameters.AddWithValue("@navn", navn);
+            cmd.Parameters.AddWithValue("@beskrivelse", beskrivelse);
+            cmd.ExecuteNonQuery();
+
+            var idCmd = connection.CreateCommand();
+            idCmd.CommandText = "SELECT Id FROM Flows WHERE Navn = @navn";
+            idCmd.Parameters.AddWithValue("@navn", navn);
+            int flowId = Convert.ToInt32(idCmd.ExecuteScalar());
+
+            var userCmd = connection.CreateCommand();
+            userCmd.CommandText = "SELECT Id FROM Users WHERE Username = @username";
+            userCmd.Parameters.AddWithValue("@username", username);
+            int userId = Convert.ToInt32(userCmd.ExecuteScalar());
+
+            var linkCmd = connection.CreateCommand();
+            linkCmd.CommandText = "INSERT OR IGNORE INTO UserFlows (UserId, FlowId) VALUES (@userId, @flowId)";
+            linkCmd.Parameters.AddWithValue("@userId", userId);
+            linkCmd.Parameters.AddWithValue("@flowId", flowId);
+            linkCmd.ExecuteNonQuery();
         }
 
         public static void DeleteFlow(string navn)

@@ -85,7 +85,7 @@ namespace _2.semEksamenProjekt.Views
 
         private void OpretFlow_Click(object sender, RoutedEventArgs e)
         {
-            Pop_Up_Window_OpretFlow vindue = new Pop_Up_Window_OpretFlow();
+            Pop_Up_Window_OpretFlow vindue = new Pop_Up_Window_OpretFlow("admin");
             vindue.ShowDialog();
             IndlæsFlows();
         }
@@ -99,7 +99,7 @@ namespace _2.semEksamenProjekt.Views
             }
 
             string flow = FlowListe.SelectedItem.ToString();
-            Pop_Up_Window_OpretFlow vindue = new Pop_Up_Window_OpretFlow(flow);
+            Pop_Up_Window_OpretFlow vindue = new Pop_Up_Window_OpretFlow("admin", flow);
             vindue.ShowDialog();
             IndlæsFlows();
         }

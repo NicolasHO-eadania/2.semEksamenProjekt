@@ -7,15 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-
         <TabControl x:Name="MainTabs">
 
             <!-- SKEMA TAB -->
             <TabItem Header="Skema">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Disabled">
-                    <Grid x:Name="SkemaGrid"/>
-                </ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" Content="+ Opret Lektion" 
+                            HorizontalAlignment="Right" Margin="0,5,5,5"
+                            Click="OpretLektion_Click"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <Grid x:Name="SkemaGrid"/>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
 
             <!-- FLOWS TAB -->
@@ -36,60 +46,60 @@
                     <Grid Grid.Column="1" Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock x:Name="IndholdTitel" Grid.Row="0" FontSize="20" 
+                        <!-- Knap øverst højre -->
+                        <Button Grid.Row="0" Content="+ Opret Flow"
+                    HorizontalAlignment="Right" Margin="0,0,0,5"
+                    Click="OpretFlow_Click"/>
+
+                        <TextBlock x:Name="IndholdTitel" Grid.Row="1" FontSize="20" 
                        FontWeight="Bold" Margin="0,0,0,10"/>
-                        <TextBox x:Name="IndholdTekst" Grid.Row="1" TextWrapping="Wrap"
-                     AcceptsReturn="True" IsReadOnly="True" 
+                        <TextBox x:Name="IndholdTekst" Grid.Row="2" TextWrapping="Wrap"
+                     AcceptsReturn="True" IsReadOnly="True" Height="150"
                      VerticalScrollBarVisibility="Auto" Margin="0,0,0,10"/>
 
                         <!-- Opret underflow (kun lærer) -->
-                        <StackPanel x:Name="OpretUnderflowPanel" Grid.Row="2" 
-                        Visibility="Collapsed" Orientation="Horizontal">
-                            <TextBox x:Name="UnderflowTitelBox" Width="200" Margin="0,0,5,0"/>
-                            <Button Content="+ Nyt underflow" Click="OpretUnderflow_Click"/>
+                        <StackPanel x:Name="OpretUnderflowPanel" Grid.Row="3" 
+                        Visibility="Collapsed">
+                            <TextBox x:Name="UnderflowTitelBox" Width="200" Margin="0,0,0,5"/>
+                            <TextBox x:Name="UnderflowTekstBox" Height="80" Margin="0,0,0,5"
+                         TextWrapping="Wrap" AcceptsReturn="True"/>
+                            <Button Content="+ Gem underflow" Click="OpretUnderflow_Click" 
+                        HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
             </TabItem>
 
-            <!-- LEKTIONER TAB (kun lærer - skjules for elever) -->
-            <TabItem Header="Lektioner" x:Name="LektionerTab" Visibility="Collapsed">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Opret Lektion" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+            <!-- FLOW OVERSIGT TAB -->
+            <TabItem Header="Flow Oversigt">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Text="Titel:"/>
-                    <TextBox x:Name="LektionTitelBox" Margin="0,0,0,5"/>
+                    <TextBlock Grid.Row="0" Text="Flow Oversigt" FontSize="16" 
+                               FontWeight="Bold" Margin="10,10,0,5"/>
 
-                    <TextBlock Text="Flow:"/>
-                    <ComboBox x:Name="LektionFlowCombo" Margin="0,0,0,5"/>
-
-                    <TextBlock Text="Dag:"/>
-                    <ComboBox x:Name="LektionDagCombo" Margin="0,0,0,5">
-                        <ComboBoxItem>Mandag</ComboBoxItem>
-                        <ComboBoxItem>Tirsdag</ComboBoxItem>
-                        <ComboBoxItem>Onsdag</ComboBoxItem>
-                        <ComboBoxItem>Torsdag</ComboBoxItem>
-                        <ComboBoxItem>Fredag</ComboBoxItem>
-                    </ComboBox>
-
-                    <TextBlock Text="Start tid:"/>
-                    <TextBox x:Name="StartTidBox" Margin="0,0,0,5"/>
-
-                    <TextBlock Text="Slut tid:"/>
-                    <TextBox x:Name="SlutTidBox" Margin="0,0,0,5"/>
-
-                    <TextBlock Text="Indhold:"/>
-                    <TextBox x:Name="LektionIndholdBox" Height="100" 
-                             TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,10"/>
-
-                    <Button Content="Opret Lektion" Click="OpretLektion_Click" Width="150" HorizontalAlignment="Left"/>
-                </StackPanel>
+                    <ListView x:Name="FlowOversigt" Grid.Row="1" Margin="10">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Flow" Width="150" 
+                                                DisplayMemberBinding="{Binding FlowNavn}"/>
+                                <GridViewColumn Header="Underflow" Width="150" 
+                                                DisplayMemberBinding="{Binding UnderflowNavn}"/>
+                                <GridViewColumn Header="Indhold" Width="300" 
+                                                DisplayMemberBinding="{Binding Tekst}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
-
         </TabControl>
     </Grid>
 </UserControl>

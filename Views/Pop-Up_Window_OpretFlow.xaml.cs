@@ -9,9 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
 using _2.semEksamenProjekt.Services;
-using System.Windows;
 
 namespace _2.semEksamenProjekt
 {
@@ -19,17 +17,22 @@ namespace _2.semEksamenProjekt
     {
         private readonly string _oprindeligtNavn;
         private readonly bool _erRedigering;
+        private readonly string _username;
 
-        public Pop_Up_Window_OpretFlow()
+        // Opret nyt flow
+        public Pop_Up_Window_OpretFlow(string username)
         {
             InitializeComponent();
             _erRedigering = false;
+            _username = username;
         }
 
-        public Pop_Up_Window_OpretFlow(string navn)
+        // Rediger eksisterende flow
+        public Pop_Up_Window_OpretFlow(string username, string navn)
         {
             InitializeComponent();
             _erRedigering = true;
+            _username = username;
             _oprindeligtNavn = navn;
 
             var flow = Database.GetFlow(navn);
@@ -55,7 +58,7 @@ namespace _2.semEksamenProjekt
             }
             else
             {
-                Database.CreateFlow(titel, beskrivelse);
+                Database.CreateFlow(titel, beskrivelse, _username);
                 MessageBox.Show("Flow oprettet!");
             }
 
