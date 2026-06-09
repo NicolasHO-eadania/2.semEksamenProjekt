@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:_2.semEksamenProjekt"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="1000">
     <Grid>
-        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="345,38,0,0" VerticalAlignment="Top"/>
-        <Button Content="Opret Bruger" HorizontalAlignment="Left" Margin="28,78,0,0" VerticalAlignment="Top" Width="100" Click="OpretBruger_Click"/>
-        <Button Content="Rediger Bruger" HorizontalAlignment="Left" Margin="28,115,0,0" VerticalAlignment="Top" Width="100" Click="RedigerBruger_Click"/>
-        <Button Content="Slet Bruger" HorizontalAlignment="Left" Margin="28,152,0,0" VerticalAlignment="Top" Width="100" Click="SletBruger_Click"/>
-        <ListBox x:Name="BrugerListe" Margin="133,78,517,74"/>
-        <Button Content="Opret Flow" HorizontalAlignment="Left" Margin="690,78,0,0" VerticalAlignment="Top" Width="100" Click="OpretFlow_Click"/>
-        <Button Content="Redigere Flow" HorizontalAlignment="Left" Margin="690,115,0,0" VerticalAlignment="Top" Width="100" Click="RedigerFlow_Click"/>
-        <Button Content="Slet Flow" HorizontalAlignment="Left" Margin="690,152,0,0" VerticalAlignment="Top" Width="100" Click="SletFlow_Click"/>
-        <ListBox x:Name="FlowListe" Margin="526,78,124,74"/>
-        <Button Content="Manage Flow" HorizontalAlignment="Center" Margin="0,137,0,0" VerticalAlignment="Top" Width="100" Click="ManageFlow_Click"/>
+        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="445,20,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Button Content="Opret Bruger" HorizontalAlignment="Left" Margin="41,78,0,0" VerticalAlignment="Top" Width="100" Click="OpretBruger_Click"/>
+        <Button Content="Rediger Bruger" HorizontalAlignment="Left" Margin="41,115,0,0" VerticalAlignment="Top" Width="100" Click="RedigerBruger_Click"/>
+        <Button Content="Slet Bruger" HorizontalAlignment="Left" Margin="41,152,0,0" VerticalAlignment="Top" Width="100" Click="SletBruger_Click"/>
+        <ListBox x:Name="BrugerListe" Margin="201,78,568,74"/>
+        <Button Content="Manage Flow" HorizontalAlignment="Center" Margin="0,83,0,0" VerticalAlignment="Top" Width="100" Click="ManageFlow_Click"/>
+        <ListBox x:Name="FlowListe" Margin="570,78,200,74"/>
+        <Button Content="Opret Flow" HorizontalAlignment="Left" Margin="861,78,0,0" VerticalAlignment="Top" Width="100" Click="OpretFlow_Click"/>
+        <Button Content="Rediger Flow" HorizontalAlignment="Left" Margin="861,115,0,0" VerticalAlignment="Top" Width="100" Click="RedigerFlow_Click"/>
+        <Button Content="Slet Flow" HorizontalAlignment="Left" Margin="861,152,0,0" VerticalAlignment="Top" Width="100" Click="SletFlow_Click"/>
     </Grid>
 </UserControl>
