@@ -20,7 +20,7 @@ namespace _2.semEksamenProjekt
             _erRedigering = true;
             _oprindeligtBrugernavn = brugernavn;
 
-            var data = Database.GetUser(brugernavn);
+            var data = UserService.GetUser(brugernavn);
             NavnBox.Text = data.navn;
             OpretBrugerBox.Text = data.username;
             AdgangskodeBox.Text = data.password;
@@ -49,12 +49,12 @@ namespace _2.semEksamenProjekt
 
             if (_erRedigering)
             {
-                Database.UpdateUser(_oprindeligtBrugernavn, navn, username, password, rolle);
+                UserService.UpdateUser(_oprindeligtBrugernavn, navn, username, password, rolle);
                 MessageBox.Show("Bruger opdateret!");
             }
             else
             {
-                Database.CreateUser(navn, username, password, rolle);
+                UserService.CreateUser(navn, username, password, rolle);
                 MessageBox.Show("Bruger oprettet!");
             }
 

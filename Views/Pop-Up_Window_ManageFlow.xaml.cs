@@ -11,10 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using _2.semEksamenProjekt.Services;
-using System.Windows;
-using System.Windows.Controls;
-
 namespace _2.semEksamenProjekt
 {
     public partial class Pop_Up_Window_ManageFlow : Window
@@ -31,12 +27,12 @@ namespace _2.semEksamenProjekt
 
         private void IndlæsFlows()
         {
-            FlowComboBox.ItemsSource = Database.GetAllFlows();
+            FlowComboBox.ItemsSource = FlowDbService.GetAllFlows();
         }
 
         private void IndlæsBrugere()
         {
-            BrugerComboBox.ItemsSource = Database.GetAllBrugere();
+            BrugerComboBox.ItemsSource = UserService.GetAllBrugere();
         }
 
         private void FlowComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -44,7 +40,7 @@ namespace _2.semEksamenProjekt
             if (FlowComboBox.SelectedItem != null)
             {
                 string flow = FlowComboBox.SelectedItem.ToString();
-                MedlemmerListe.ItemsSource = Database.GetUsersForFlow(flow);
+                MedlemmerListe.ItemsSource = FlowDbService.GetUsersForFlow(flow);
             }
         }
 
@@ -57,11 +53,11 @@ namespace _2.semEksamenProjekt
             }
 
             string flow = FlowComboBox.SelectedItem.ToString();
-            Database.Bruger bruger = (Database.Bruger)BrugerComboBox.SelectedItem;
+            User bruger = (User)BrugerComboBox.SelectedItem;
 
-            Database.TilmeldFlow(bruger.Username, flow);
+            FlowDbService.TilmeldFlow(bruger.Username, flow);
             MedlemmerListe.ItemsSource = null;
-            MedlemmerListe.ItemsSource = Database.GetUsersForFlow(flow);
+            MedlemmerListe.ItemsSource = FlowDbService.GetUsersForFlow(flow);
             MessageBox.Show($"{bruger.Navn} er tilmeldt {flow}!");
         }
 
@@ -77,8 +73,8 @@ namespace _2.semEksamenProjekt
             string valgt = MedlemmerListe.SelectedItem.ToString();
             string brugernavn = valgt.Split('(', ')')[1];
 
-            Database.AfmeldFlow(brugernavn, flow);
-            MedlemmerListe.ItemsSource = Database.GetUsersForFlow(flow);
+            FlowDbService.AfmeldFlow(brugernavn, flow);
+            MedlemmerListe.ItemsSource = FlowDbService.GetUsersForFlow(flow);
             MessageBox.Show($"{brugernavn} er afmeldt {flow}!");
         }
     }

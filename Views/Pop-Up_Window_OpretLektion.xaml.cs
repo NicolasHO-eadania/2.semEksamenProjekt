@@ -24,7 +24,7 @@ namespace _2.semEksamenProjekt.Views
         {
             InitializeComponent();
             _username = username;
-            LektionFlowCombo.ItemsSource = Database.GetFlowsForUser(username);
+            LektionFlowCombo.ItemsSource = FlowDbService.GetFlowsForUser(username);
         }
 
         private void OpretLektion_Click(object sender, RoutedEventArgs e)
@@ -38,7 +38,7 @@ namespace _2.semEksamenProjekt.Views
 
             string dag = ((ComboBoxItem)LektionDagCombo.SelectedItem).Content.ToString();
 
-            Database.OpretLektion(
+            FlowDbService.OpretLektion(
                 LektionTitelBox.Text,
                 LektionIndholdBox.Text,
                 dag,

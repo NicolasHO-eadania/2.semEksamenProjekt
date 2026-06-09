@@ -12,19 +12,10 @@
             <!-- SKEMA TAB -->
             <TabItem Header="Skema">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <Button Grid.Row="0" Content="+ Opret Lektion" 
-                            HorizontalAlignment="Right" Margin="0,5,5,5"
-                            Click="OpretLektion_Click"/>
-
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
-                                  HorizontalScrollBarVisibility="Disabled">
-                        <Grid x:Name="SkemaGrid"/>
-                    </ScrollViewer>
+                    <TextBlock Text="Skema placeres her..." 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   FontSize="20"/>
                 </Grid>
             </TabItem>
 

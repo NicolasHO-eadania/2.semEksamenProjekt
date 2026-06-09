@@ -14,21 +14,17 @@ using System.Windows.Shapes;
 
 namespace _2.semEksamenProjekt.Views
 {
-    /// <summary>
-    /// Interaction logic for Side_Dashboard.xaml
-    /// </summary>
     public partial class Side_Dashboard : UserControl
     {
         public Side_Dashboard()
         {
             InitializeComponent();
-            IndlæsBrugere();
-            IndlæsFlows();
+            Loaded += (s, e) => { IndlæsBrugere(); IndlæsFlows(); };
         }
 
         private void IndlæsBrugere()
         {
-            BrugerListe.ItemsSource = Database.GetAllUsers();
+            BrugerListe.ItemsSource = UserService.GetAllUsers();
         }
 
         private void OpretBruger_Click(object sender, RoutedEventArgs e)
@@ -73,14 +69,14 @@ namespace _2.semEksamenProjekt.Views
 
             if (resultat == MessageBoxResult.Yes)
             {
-                Database.DeleteUser(brugernavn);
+                UserService.DeleteUser(brugernavn);
                 IndlæsBrugere();
             }
         }
 
         private void IndlæsFlows()
         {
-            FlowListe.ItemsSource = Database.GetAllFlows();
+            FlowListe.ItemsSource = FlowDbService.GetAllFlows();
         }
 
         private void OpretFlow_Click(object sender, RoutedEventArgs e)
@@ -122,7 +118,7 @@ namespace _2.semEksamenProjekt.Views
 
             if (resultat == MessageBoxResult.Yes)
             {
-                Database.DeleteFlow(flow);
+                FlowDbService.DeleteFlow(flow);
                 IndlæsFlows();
             }
         }

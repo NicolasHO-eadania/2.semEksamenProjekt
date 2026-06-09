@@ -37,7 +37,6 @@ namespace _2.semEksamenProjekt.Views
                 OpretUnderflowPanel.Visibility = Visibility.Visible;
             }
 
-            LoadSkema();
             LoadFlows();
             LoadFlowOversigt();
         }
@@ -45,7 +44,7 @@ namespace _2.semEksamenProjekt.Views
         private void LoadFlows()
         {
             FlowTree.Items.Clear();
-            var flows = Database.GetFlowsForUser(_username);
+            var flows = FlowDbService.GetFlowsForUser(_username);
             foreach (var flow in flows)
             {
                 var flowNode = new TreeViewItem
@@ -55,7 +54,7 @@ namespace _2.semEksamenProjekt.Views
                     Tag = new { Type = "flow", Navn = flow }
                 };
 
-                var underflows = Database.GetUnderflows(flow);
+                var underflows = FlowDbService.GetUnderflows(flow);
                 foreach (var u in underflows)
                 {
                     var underflowNode = new TreeViewItem
@@ -99,115 +98,7 @@ namespace _2.semEksamenProjekt.Views
             }
         }
 
-        private void LoadSkema()
-        {
-            SkemaGrid.Children.Clear();
-            SkemaGrid.ColumnDefinitions.Clear();
-            SkemaGrid.RowDefinitions.Clear();
 
-            string[] dage = { "", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag" };
-            int startTime = 6;
-            int endTime = 17;
-            int rowHeight = 40;
-
-            SkemaGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
-            for (int i = 1; i < dage.Length; i++)
-                SkemaGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-
-            SkemaGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
-            for (int t = startTime; t <= endTime; t++)
-                SkemaGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(rowHeight) });
-
-            for (int d = 1; d < dage.Length; d++)
-            {
-                var header = new TextBlock
-                {
-                    Text = dage[d],
-                    FontWeight = FontWeights.Bold,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                Grid.SetRow(header, 0);
-                Grid.SetColumn(header, d);
-                SkemaGrid.Children.Add(header);
-            }
-
-            for (int t = startTime; t <= endTime; t++)
-            {
-                int row = t - startTime + 1;
-
-                var tidLabel = new TextBlock
-                {
-                    Text = $"{t:D2}:00",
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    FontSize = 11
-                };
-                Grid.SetRow(tidLabel, row);
-                Grid.SetColumn(tidLabel, 0);
-                SkemaGrid.Children.Add(tidLabel);
-
-                for (int d = 1; d < dage.Length; d++)
-                {
-                    bool arbejdstid = t >= 8 && t < 16;
-                    var celle = new Border
-                    {
-                        Background = arbejdstid
-                            ? new SolidColorBrush(Colors.White)
-                            : new SolidColorBrush(Color.FromRgb(220, 220, 220)),
-                        BorderBrush = new SolidColorBrush(Colors.LightGray),
-                        BorderThickness = new Thickness(0.5)
-                    };
-                    Grid.SetRow(celle, row);
-                    Grid.SetColumn(celle, d);
-                    SkemaGrid.Children.Add(celle);
-                }
-            }
-
-            var lektioner = Database.GetLektionerForUser(_username);
-            string[] dagNavne = { "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag" };
-
-            foreach (var l in lektioner)
-            {
-                int dagIndex = Array.IndexOf(dagNavne, l.dag) + 1;
-                if (dagIndex <= 0) continue;
-
-                if (!int.TryParse(l.startTid.Split(':')[0], out int startHour)) continue;
-                if (!int.TryParse(l.slutTid.Split(':')[0], out int slutHour)) continue;
-
-                int row = startHour - startTime + 1;
-                int rowSpan = Math.Max(1, slutHour - startHour);
-
-                var lektionBoks = new Border
-                {
-                    Background = new SolidColorBrush(Color.FromRgb(100, 149, 237)),
-                    CornerRadius = new CornerRadius(4),
-                    Margin = new Thickness(2),
-                    Child = new TextBlock
-                    {
-                        Text = l.titel,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        FontWeight = FontWeights.Bold,
-                        TextWrapping = TextWrapping.Wrap,
-                        Margin = new Thickness(4),
-                        FontSize = 11
-                    }
-                };
-
-                Grid.SetRow(lektionBoks, row);
-                Grid.SetColumn(lektionBoks, dagIndex);
-                Grid.SetRowSpan(lektionBoks, rowSpan);
-                SkemaGrid.Children.Add(lektionBoks);
-            }
-        }
-
-        private void OpretLektion_Click(object sender, RoutedEventArgs e)
-        {
-            var vindue = new Pop_Up_Window_OpretLektion(_username);
-            vindue.Owner = Window.GetWindow(this);
-            vindue.ShowDialog();
-            LoadSkema();
-        }
         private void OpretUnderflow_Click(object sender, RoutedEventArgs e)
         {
             if (FlowTree.SelectedItem is not TreeViewItem valgt) return;
@@ -215,9 +106,9 @@ namespace _2.semEksamenProjekt.Views
 
             dynamic tag = valgt.Tag;
             string flowNavn = tag.Navn;
-            int flowId = Database.GetFlowId(flowNavn);
+            int flowId = FlowDbService.GetFlowId(flowNavn);
 
-            Database.OpretUnderflow(UnderflowTitelBox.Text, UnderflowTekstBox.Text, flowId);
+            FlowDbService.OpretUnderflow(UnderflowTitelBox.Text, UnderflowTekstBox.Text, flowId);
             UnderflowTitelBox.Text = "";
             UnderflowTekstBox.Text = "";
             LoadFlows();
@@ -226,11 +117,11 @@ namespace _2.semEksamenProjekt.Views
         private void LoadFlowOversigt()
         {
             var liste = new List<FlowOversigtsRække>();
-            var flows = Database.GetFlowsForUser(_username);
+            var flows = FlowDbService.GetFlowsForUser(_username);
 
             foreach (var flow in flows)
             {
-                var underflows = Database.GetUnderflows(flow);
+                var underflows = FlowDbService.GetUnderflows(flow);
                 if (underflows.Count == 0)
                 {
                     liste.Add(new FlowOversigtsRække { FlowNavn = flow, UnderflowNavn = "-", Tekst = "-" });
@@ -258,14 +149,5 @@ namespace _2.semEksamenProjekt.Views
             public string UnderflowNavn { get; set; }
             public string Tekst { get; set; }
         }
-    }
-
-    public class LektionVisning
-    {
-        public string Titel { get; set; }
-        public string Dag { get; set; }
-        public string StartTid { get; set; }
-        public string SlutTid { get; set; }
-        public string FlowNavn { get; set; }
     }
 }

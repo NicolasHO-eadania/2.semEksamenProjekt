@@ -19,7 +19,6 @@ namespace _2.semEksamenProjekt
         private readonly bool _erRedigering;
         private readonly string _username;
 
-        // Opret nyt flow
         public Pop_Up_Window_OpretFlow(string username)
         {
             InitializeComponent();
@@ -27,7 +26,6 @@ namespace _2.semEksamenProjekt
             _username = username;
         }
 
-        // Rediger eksisterende flow
         public Pop_Up_Window_OpretFlow(string username, string navn)
         {
             InitializeComponent();
@@ -35,7 +33,7 @@ namespace _2.semEksamenProjekt
             _username = username;
             _oprindeligtNavn = navn;
 
-            var flow = Database.GetFlow(navn);
+            var flow = FlowDbService.GetFlow(navn);
             Flow_Titel.Text = flow.navn;
             Flow_Beskrivelse.Text = flow.beskrivelse;
         }
@@ -53,12 +51,12 @@ namespace _2.semEksamenProjekt
 
             if (_erRedigering)
             {
-                Database.UpdateFlow(_oprindeligtNavn, titel, beskrivelse);
+                FlowDbService.UpdateFlow(_oprindeligtNavn, titel, beskrivelse);
                 MessageBox.Show("Flow opdateret!");
             }
             else
             {
-                Database.CreateFlow(titel, beskrivelse, _username);
+                FlowDbService.CreateFlow(titel, beskrivelse, _username);
                 MessageBox.Show("Flow oprettet!");
             }
 

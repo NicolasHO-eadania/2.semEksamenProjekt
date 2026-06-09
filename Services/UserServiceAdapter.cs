@@ -8,12 +8,12 @@ namespace _2.semEksamenProjekt.Services
     {
         public bool Login(string username, string password)
         {
-            return Database.ValidateUser(username, password);
+            return UserService.ValidateUser(username, password);
         }
 
         public string GetRole(string username, string password)
         {
-            return Database.GetUserRole(username, password);
+            return UserService.GetUserRole(username, password);
         }
     }
 }

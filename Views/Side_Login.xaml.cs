@@ -14,9 +14,6 @@ using _2.semEksamenProjekt.Services;
 
 namespace _2.semEksamenProjekt.Views
 {
-    /// <summary>
-    /// Interaction logic for Side_Login.xaml
-    /// </summary>
     public partial class Side_Login : UserControl
     {
         private readonly IUserService _userService;
@@ -41,10 +38,10 @@ namespace _2.semEksamenProjekt.Views
                 {
                     main.Side_Dashboard.Visibility = Visibility.Visible;
                 }
-                else // Elev eller Lærer
+                else
                 {
-                    main.Side_Skema.Visibility = Visibility.Visible;
-                    main.Side_Skema.Init(username, rolle);
+                     main.Side_Skema.Visibility = Visibility.Visible;
+                     main.Side_Skema.Init(username, rolle);
                 }
             }
             else
